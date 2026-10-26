@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Kawanua - Torang Pe Media Berita Terpercaya</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#DC2626',
+                            blue: '#1E40AF',
+                            yellow: '#F59E0B',
+                            dark: '#0F172A',
+                            accent: '#0284C7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-slate-900 dark:text-gray-100 transition-colors duration-300 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Bar Header -->
+    <div class="bg-slate-900 text-gray-300 text-xs py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-4">
+                <span><i class="fas fa-map-marker-alt text-brand-red mr-1"></i> Sulawesi Utara, Indonesia</span>
+                <span class="hidden sm:inline-block">|</span>
+                <span class="hidden sm:inline-block text-xs bg-slate-800 px-2 py-0.5 rounded text-gray-300">Tabea Kawanua! Media Berita Terpercaya</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Social Media Integration Top Bar -->
+                <div class="flex space-x-3 text-sm">
+                    <a href="#" class="hover:text-brand-yellow transition-colors" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-brand-yellow transition-colors" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-brand-yellow transition-colors" title="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-brand-yellow transition-colors" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="hover:text-brand-yellow transition-colors" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+                <button id="theme-toggle" class="p-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-gray-300 transition-colors">
+                    <i id="theme-icon" class="fas fa-moon text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header & Logo -->
+    <header class="bg-white dark:bg-slate-800 shadow-sm sticky top-0 z-40 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex justify-between items-center">
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="lg:hidden text-2xl text-slate-700 dark:text-slate-200 focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Logo (WK Removed) -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="bg-gradient-to-tr from-red-600 via-amber-500 to-blue-600 p-2.5 rounded-xl text-white shadow-md transform group-hover:scale-105 transition-transform flex items-center justify-center">
+                    <i class="fas fa-newspaper text-xl"></i>
+                </div>
+                <div>
+                    <span class="font-heading text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">WE <span class="text-red-600">KAWANUA</span></span>
+                    <p class="text-[10px] tracking-widest text-gray-500 dark:text-gray-400 font-semibold uppercase -mt-1">Torang Pe Media Berita</p>
+                </div>
+            </a>
+
+            <!-- Search & User Actions -->
+            <div class="flex items-center space-x-3">
+                <div class="relative hidden sm:block">
+                    <input type="text" id="search-input" placeholder="Cari berita Sulut..." class="w-48 md:w-64 pl-9 pr-4 py-1.5 text-sm rounded-full bg-gray-100 dark:bg-slate-700 border border-transparent focus:border-red-500 dark:text-white focus:outline-none focus:bg-white dark:focus:bg-slate-800 transition-all">
+                    <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
+                </div>
+                <!-- Kirim Berita Button Triggering Interactive Modal -->
+                <button onclick="openSubmitNewsModal()" class="bg-red-600 hover:bg-red-700 text-white font-semibold text-xs sm:text-sm px-4 py-2 rounded-full transition-all shadow-sm hover:shadow flex items-center gap-1.5">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Kirim Berita</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Categories & All Sulut Cities Dropdown -->
+        <nav class="border-t border-b border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 hidden lg:block">
+            <div class="max-w-7xl mx-auto px-4">
+                <ul class="flex items-center space-x-1 text-sm font-semibold text-slate-700 dark:text-slate-200 overflow-x-auto custom-scrollbar">
+                    <li>
+                        <button onclick="filterCategory('semua')" class="nav-link px-4 py-3 block hover:text-red-600 dark:hover:text-red-400 border-b-2 border-red-600 text-red-600 dark:text-red-400 whitespace-nowrap">
+                            <i class="fas fa-home mr-1"></i> Utama
+                        </button>
+                    </li>
+
+                    <!-- Dropdown Daerah / Kabupaten Kota di Sulut -->
+                    <li class="relative group">
+                        <button class="px-4 py-3 flex items-center hover:text-red-600 dark:hover:text-red-400 border-b-2 border-transparent group-hover:border-red-600 whitespace-nowrap font-bold text-red-600 dark:text-red-400">
+                            <i class="fas fa-map-marked-alt mr-1.5"></i> Daerah Sulut <i class="fas fa-chevron-down ml-1.5 text-xs"></i>
+                        </button>
+                        <!-- Mega Submenu All 15 Cities/Regencies -->
+                        <div class="absolute left-0 top-full hidden group-hover:grid grid-cols-3 gap-2 w-[550px] bg-white dark:bg-slate-800 shadow-xl border border-gray-100 dark:border-slate-700 p-4 rounded-b-xl z-50 text-xs">
+                            <div class="col-span-3 pb-1 mb-1 border-b dark:border-slate-700 font-bold text-red-600">Kota & Kabupaten di Sulawesi Utara</div>
+                            <a href="#" onclick="filterCategory('manado');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded font-semibold text-slate-800 dark:text-slate-200"><i class="fas fa-city mr-1 text-gray-400"></i> Kota Manado</a>
+                            <a href="#" onclick="filterCategory('bitung');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300"><i class="fas fa-ship mr-1 text-gray-400"></i> Kota Bitung</a>
+                            <a href="#" onclick="filterCategory('tomohon');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300"><i class="fas fa-mountain mr-1 text-gray-400"></i> Kota Tomohon</a>
+                            <a href="#" onclick="filterCategory('kotamobagu');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300"><i class="fas fa-building mr-1 text-gray-400"></i> Kota Kotamobagu</a>
+                            <a href="#" onclick="filterCategory('minahasa');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kab. Minahasa</a>
+                            <a href="#" onclick="filterCategory('minut');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kab. Minahasa Utara</a>
+                            <a href="#" onclick="filterCategory('minsel');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kab. Minahasa Selatan</a>
+                            <a href="#" onclick="filterCategory('mitra');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kab. Minahasa Tenggara</a>
+                            <a href="#" onclick="filterCategory('sangihe');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300"><i class="fas fa-water mr-1 text-gray-400"></i> Kep. Sangihe</a>
+                            <a href="#" onclick="filterCategory('talaud');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300"><i class="fas fa-island-tropical mr-1 text-gray-400"></i> Kep. Talaud</a>
+                            <a href="#" onclick="filterCategory('sitaro');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kep. Sitaro</a>
+                            <a href="#" onclick="filterCategory('bolmong');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kab. Bolmong</a>
+                            <a href="#" onclick="filterCategory('bolmut');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kab. Bolmong Utara</a>
+                            <a href="#" onclick="filterCategory('bolsel');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kab. Bolmong Selatan</a>
+                            <a href="#" onclick="filterCategory('boltim');" class="p-1.5 hover:bg-red-50 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-300">Kab. Bolmong Timur</a>
+                        </div>
+                    </li>
+
+                    <li><button onclick="filterCategory('politik')" class="nav-link px-4 py-3 block hover:text-red-600 dark:hover:text-red-400 border-b-2 border-transparent hover:border-red-600 whitespace-nowrap">Politik & Pemda</button></li>
+                    <li><button onclick="filterCategory('ekonomi')" class="nav-link px-4 py-3 block hover:text-red-600 dark:hover:text-red-400 border-b-2 border-transparent hover:border-red-600 whitespace-nowrap">Ekonomi & Perikanan</button></li>
+                    <li><button onclick="filterCategory('gaya-hidup')" class="nav-link px-4 py-3 block hover:text-red-600 dark:hover:text-red-400 border-b-2 border-transparent hover:border-red-600 whitespace-nowrap">Gaya Hidup</button></li>
+                    <li><button onclick="filterCategory('olahraga')" class="nav-link px-4 py-3 block hover:text-red-600 dark:hover:text-red-400 border-b-2 border-transparent hover:border-red-600 whitespace-nowrap">Olahraga</button></li>
+                    <li><button onclick="filterCategory('budaya')" class="nav-link px-4 py-3 block hover:text-red-600 dark:hover:text-red-400 border-b-2 border-transparent hover:border-red-600 whitespace-nowrap"><i class="fas fa-utensils text-yellow-500 mr-1"></i> Kuliner & Wisata</button></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="fixed inset-0 bg-slate-900/80 z-50 hidden transition-opacity lg:hidden">
+        <div class="bg-white dark:bg-slate-800 w-4/5 max-w-sm h-full shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">
+            <div>
+                <div class="flex justify-between items-center mb-6 border-b pb-4 dark:border-slate-700">
+                    <span class="font-heading font-black text-xl text-slate-900 dark:text-white">WE <span class="text-red-600">KAWANUA</span></span>
+                    <button id="close-mobile-menu" class="text-slate-500 hover:text-red-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <button onclick="closeMobileNav(); openSubmitNewsModal();" class="w-full bg-red-600 text-white font-bold py-2.5 rounded-lg mb-4 flex items-center justify-center gap-2">
+                    <i class="fas fa-paper-plane"></i> Kirim Berita Warga
+                </button>
+
+                <div class="relative mb-4">
+                    <input type="text" placeholder="Cari berita Sulut..." class="w-full pl-9 pr-4 py-2 text-sm rounded-lg bg-gray-100 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-slate-900 dark:text-white">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+                </div>
+
+                <div class="text-xs font-bold text-red-600 uppercase tracking-wider mb-2">Daerah di Sulut</div>
+                <div class="grid grid-cols-2 gap-1.5 text-xs text-slate-700 dark:text-slate-300 mb-4 border-b pb-4 dark:border-slate-700">
+                    <a href="#" onclick="filterCategory('manado'); closeMobileNav();" class="p-1 hover:text-red-600">Kota Manado</a>
+                    <a href="#" onclick="filterCategory('bitung'); closeMobileNav();" class="p-1 hover:text-red-600">Kota Bitung</a>
+                    <a href="#" onclick="filterCategory('tomohon'); closeMobileNav();" class="p-1 hover:text-red-600">Kota Tomohon</a>
+                    <a href="#" onclick="filterCategory('kotamobagu'); closeMobileNav();" class="p-1 hover:text-red-600">Kota Kotamobagu</a>
+                    <a href="#" onclick="filterCategory('minahasa'); closeMobileNav();" class="p-1 hover:text-red-600">Kab. Minahasa</a>
+                    <a href="#" onclick="filterCategory('minut'); closeMobileNav();" class="p-1 hover:text-red-600">Minahasa Utara</a>
+                    <a href="#" onclick="filterCategory('minsel'); closeMobileNav();" class="p-1 hover:text-red-600">Minahasa Selatan</a>
+                    <a href="#" onclick="filterCategory('mitra'); closeMobileNav();" class="p-1 hover:text-red-600">Minahasa Tenggara</a>
+                    <a href="#" onclick="filterCategory('sangihe'); closeMobileNav();" class="p-1 hover:text-red-600">Kep. Sangihe</a>
+                    <a href="#" onclick="filterCategory('talaud'); closeMobileNav();" class="p-1 hover:text-red-600">Kep. Talaud</a>
+                    <a href="#" onclick="filterCategory('sitaro'); closeMobileNav();" class="p-1 hover:text-red-600">Kep. Sitaro</a>
+                    <a href="#" onclick="filterCategory('bolmong'); closeMobileNav();" class="p-1 hover:text-red-600">Kab. Bolmong</a>
+                    <a href="#" onclick="filterCategory('bolmut'); closeMobileNav();" class="p-1 hover:text-red-600">Bolmong Utara</a>
+                    <a href="#" onclick="filterCategory('bolsel'); closeMobileNav();" class="p-1 hover:text-red-600">Bolmong Selatan</a>
+                    <a href="#" onclick="filterCategory('boltim'); closeMobileNav();" class="p-1 hover:text-red-600">Bolmong Timur</a>
+                </div>
+
+                <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Kategori Utama</div>
+                <ul class="space-y-2 text-xs font-semibold text-slate-700 dark:text-slate-200">
+                    <li><a href="#" onclick="filterCategory('semua'); closeMobileNav();" class="block py-1.5 text-red-600"><i class="fas fa-home mr-2"></i>Berita Utama</a></li>
+                    <li><a href="#" onclick="filterCategory('politik'); closeMobileNav();" class="block py-1.5">Politik & Pemda</a></li>
+                    <li><a href="#" onclick="filterCategory('ekonomi'); closeMobileNav();" class="block py-1.5">Ekonomi & Perikanan</a></li>
+                    <li><a href="#" onclick="filterCategory('gaya-hidup'); closeMobileNav();" class="block py-1.5">Gaya Hidup</a></li>
+                    <li><a href="#" onclick="filterCategory('olahraga'); closeMobileNav();" class="block py-1.5">Olahraga & Sulut United</a></li>
+                    <li><a href="#" onclick="filterCategory('budaya'); closeMobileNav();" class="block py-1.5">Kuliner & Wisata</a></li>
+                </ul>
+            </div>
+            
+            <div class="mt-6 border-t pt-4 dark:border-slate-700 text-xs text-gray-500 flex justify-between items-center">
+                <p>&copy; We Kawanua</p>
+                <div class="flex space-x-3 text-sm">
+                    <a href="#" class="hover:text-red-600"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-red-600"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-red-600"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-red-600"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breaking News Ticker -->
+    <div class="bg-red-600 text-white py-2 px-4 shadow-inner">
+        <div class="max-w-7xl mx-auto flex items-center">
+            <span class="bg-slate-900 text-white font-bold text-xs uppercase px-2.5 py-1 rounded-md tracking-wider flex items-center gap-1 shrink-0 mr-3">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> Kawanua Update
+            </span>
+            <div class="overflow-hidden relative w-full text-xs sm:text-sm font-medium">
+                <div id="ticker-text" class="whitespace-nowrap inline-block animate-marquee">
+                    🔥 Festival Bunaken Resmi Dibuka, Targetkan Wisatawan Manca Negara &bull; 🚢 Jalur Pelayaran Bitung-Sangihe Tambah Armada Kapal Cepat &bull; 🌶️ Harga Rica di Pasar Beriman Tomohon dan Kotamobagu Mulai Stabil &bull; ⚡ Pembangkit Listrik Minahasa Tambah Kapasitas Energi Terbarukan
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow">
+        
+        <!-- Headline / Featured Section -->
+        <section class="mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Big Headline -->
+                <div class="lg:col-span-2 relative group overflow-hidden rounded-2xl shadow-lg cursor-pointer bg-slate-900 h-[380px] sm:h-[450px]" onclick="openModal(0)">
+                    <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80" alt="Bunaken Manado" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-90">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 sm:p-8 flex flex-col justify-end">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-md uppercase">Headline Utama</span>
+                            <span class="text-gray-300 text-xs"><i class="far fa-clock mr-1"></i> Baru saja</span>
+                        </div>
+                        <h1 class="font-heading text-xl sm:text-3xl font-extrabold text-white mb-2 leading-tight group-hover:text-red-400 transition-colors">
+                            Kawasan Wisata Bunaken Resmi Masuk Daftar Warisan Dunia UNESCO
+                        </h1>
+                        <p class="text-gray-300 text-sm hidden sm:line-clamp-2 mb-3 font-normal">
+                            Pengakuan dunia internasional kembali diraih Sulawesi Utara. Kawasan konservasi laut Bunaken diakui atas keanekaragaman hayati dan keindahan karangnya yang tak tertandingi...
+                        </p>
+                        <div class="flex items-center text-xs text-gray-400 space-x-3">
+                            <span><i class="far fa-user mr-1 text-red-500"></i> Oleh: Stenly Pontoh</span>
+                            <span>&bull;</span>
+                            <span><i class="far fa-eye mr-1"></i> 4.8k Dilihat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Headlines -->
+                <div class="flex flex-col space-y-4">
+                    <div class="relative group overflow-hidden rounded-xl shadow cursor-pointer bg-slate-900 h-[182px] sm:h-[217px]" onclick="openModal(1)">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Kuliner Manado" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-75">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+                            <span class="bg-amber-500 text-slate-900 font-bold text-[10px] uppercase px-2 py-0.5 rounded w-max mb-1">Budaya & Kuliner</span>
+                            <h2 class="font-heading text-base font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-2">
+                                Menikmati Bebek Bumbu RW dan Tinutuan Asli Kawangkoan Minahasa
+                            </h2>
+                            <span class="text-gray-400 text-[11px] mt-1"><i class="far fa-clock mr-1"></i> 1 jam lalu</span>
+                        </div>
+                    </div>
+
+                    <div class="relative group overflow-hidden rounded-xl shadow cursor-pointer bg-slate-900 h-[182px] sm:h-[217px]" onclick="openModal(2)">
+                        <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80" alt="Pembangunan Tol" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-75">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
+                            <span class="bg-blue-600 text-white font-bold text-[10px] uppercase px-2 py-0.5 rounded w-max mb-1">Pembangunan Minut</span>
+                            <h2 class="font-heading text-base font-bold text-white group-hover:text-blue-300 transition-colors line-clamp-2">
+                                Tol Manado-Bitung Segera Dilanjutkan ke Arah Likupang KEK
+                            </h2>
+                            <span class="text-gray-400 text-[11px] mt-1"><i class="far fa-clock mr-1"></i> 3 jam lalu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Layout Grid: News Feed + Sidebar -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left 2 Columns: Main News Stream -->
+            <div class="lg:col-span-2">
+                <div class="flex justify-between items-center mb-6 border-b-2 border-red-600 pb-2">
+                    <h3 id="current-category-title" class="font-heading font-extrabold text-xl text-slate-900 dark:text-white uppercase tracking-wide">
+                        <i class="fas fa-newspaper text-red-600 mr-2"></i> Berita Terkini Sulawesi Utara
+                    </h3>
+                    <div class="flex space-x-2 text-xs">
+                        <button class="px-2.5 py-1 rounded bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 font-semibold">Terbaru</button>
+                        <button class="px-2.5 py-1 rounded bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200">Populer</button>
+                    </div>
+                </div>
+
+                <!-- News Grid Container -->
+                <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Cards will be populated dynamically -->
+                </div>
+
+                <!-- Load More Button -->
+                <div class="mt-8 text-center">
+                    <button id="load-more-btn" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-gray-200 font-bold border border-gray-300 dark:border-slate-700 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white px-8 py-3 rounded-full transition-all shadow-sm">
+                        Muat Lebih Banyak Berita <i class="fas fa-arrow-down ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <aside class="space-y-8">
+                
+                <!-- Weather Widget Expanded with Sulut Cities -->
+                <div class="bg-gradient-to-br from-blue-600 to-indigo-800 text-white p-5 rounded-2xl shadow-lg relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 text-white/10 text-8xl">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <span class="text-xs bg-white/20 px-2.5 py-1 rounded-full uppercase font-semibold">Cuaca Sulut</span>
+                            <h4 class="font-heading font-bold text-lg mt-2">Kota Manado</h4>
+                            <p class="text-xs text-blue-100">Cerah Berawan</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-4xl font-extrabold font-heading">31°C</span>
+                            <p class="text-[10px] text-blue-200">Kelembapan: 78%</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-white/20 grid grid-cols-3 gap-2 text-center text-[11px] relative z-10">
+                        <div>
+                            <p class="text-blue-200">Tomohon</p>
+                            <p class="font-bold">24°C Hujan</p>
+                        </div>
+                        <div>
+                            <p class="text-blue-200">Bitung</p>
+                            <p class="font-bold">32°C Cerah</p>
+                        </div>
+                        <div>
+                            <p class="text-blue-200">Kotamobagu</p>
+                            <p class="font-bold">28°C Berawan</p>
+                        </div>
+                        <div class="mt-2">
+                            <p class="text-blue-200">Sangihe</p>
+                            <p class="font-bold">29°C Cerah</p>
+                        </div>
+                        <div class="mt-2">
+                            <p class="text-blue-200">Talaud</p>
+                            <p class="font-bold">30°C Berawan</p>
+                        </div>
+                        <div class="mt-2">
+                            <p class="text-blue-200">Bolmong</p>
+                            <p class="font-bold">31°C Cerah</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending / Populer Widget -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700">
+                    <h4 class="font-heading font-bold text-base text-slate-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-slate-700 flex items-center">
+                        <i class="fas fa-fire text-red-600 mr-2"></i> Populer di Sulawesi Utara
+                    </h4>
+                    <div class="space-y-4">
+                        <a href="#" class="flex items-start space-x-3 group">
+                            <span class="font-heading text-2xl font-black text-slate-300 dark:text-slate-600 group-hover:text-red-600 transition-colors">01</span>
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-red-600 transition-colors line-clamp-2">
+                                    Resep Rahasia Sambal Roa Khas Manado Yang Tahan Lama Tanpa Pengawet
+                                </h5>
+                                <span class="text-[10px] text-gray-400 mt-1 block"><i class="far fa-eye mr-1"></i> 12.4k views</span>
+                            </div>
+                        </a>
+                        <a href="#" class="flex items-start space-x-3 group">
+                            <span class="font-heading text-2xl font-black text-slate-300 dark:text-slate-600 group-hover:text-red-600 transition-colors">02</span>
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-red-600 transition-colors line-clamp-2">
+                                    Hasil Laga Sulut United vs Persipura: Hujan Gol di Stadion Klabat
+                                </h5>
+                                <span class="text-[10px] text-gray-400 mt-1 block"><i class="far fa-eye mr-1"></i> 9.1k views</span>
+                            </div>
+                        </a>
+                        <a href="#" class="flex items-start space-x-3 group">
+                            <span class="font-heading text-2xl font-black text-slate-300 dark:text-slate-600 group-hover:text-red-600 transition-colors">03</span>
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-red-600 transition-colors line-clamp-2">
+                                    Pengembangan Pelabuhan Samudra Bitung Jadi Hub Ekspor Pasifik
+                                </h5>
+                                <span class="text-[10px] text-gray-400 mt-1 block"><i class="far fa-eye mr-1"></i> 8.5k views</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Polling Widget -->
+                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700">
+                    <span class="bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Polling Kawanua</span>
+                    <h4 class="font-heading font-bold text-sm text-slate-900 dark:text-white mt-2 mb-3">
+                        Menurut ngana, mana kuliner Manado terfavorit untuk sarapan pagi?
+                    </h4>
+                    
+                    <form id="poll-form" class="space-y-2 text-xs">
+                        <label class="flex items-center space-x-2 p-2 rounded-lg border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/50 cursor-pointer">
+                            <input type="radio" name="poll" value="tinutuan" class="text-red-600 focus:ring-red-500">
+                            <span class="text-slate-700 dark:text-slate-300 font-medium">Tinutuan (Bubur Manado)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-2 rounded-lg border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/50 cursor-pointer">
+                            <input type="radio" name="poll" value="nasi-kuning" class="text-red-600 focus:ring-red-500">
+                            <span class="text-slate-700 dark:text-slate-300 font-medium">Nasi Kuning Bungkus Daun Woka</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-2 rounded-lg border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/50 cursor-pointer">
+                            <input type="radio" name="poll" value="mie-cakalang" class="text-red-600 focus:ring-red-500">
+                            <span class="text-slate-700 dark:text-slate-300 font-medium">Mie Cakalang Kuah Bening</span>
+                        </label>
+                        <button type="button" onclick="submitPoll()" class="w-full mt-3 bg-slate-900 dark:bg-red-600 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition-colors">
+                            Kirim Pilihan
+                        </button>
+                    </form>
+                    <div id="poll-result" class="hidden text-xs space-y-2 mt-3">
+                        <div class="space-y-1">
+                            <div class="flex justify-between font-semibold"><span>Tinutuan</span><span>58%</span></div>
+                            <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-red-600 h-2 rounded-full" style="width: 58%"></div></div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between font-semibold"><span>Nasi Kuning Woka</span><span>32%</span></div>
+                            <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-amber-500 h-2 rounded-full" style="width: 32%"></div></div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between font-semibold"><span>Mie Cakalang</span><span>10%</span></div>
+                            <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-blue-500 h-2 rounded-full" style="width: 10%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- NEW INTERACTIVE MODAL: Kirim Berita Warga (Citizen Journalism) -->
+    <div id="submit-news-modal" class="fixed inset-0 bg-black/75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative custom-scrollbar max-h-[90vh] overflow-y-auto">
+            <button onclick="closeSubmitNewsModal()" class="absolute top-4 right-4 bg-gray-100 dark:bg-slate-700 hover:bg-red-600 hover:text-white text-slate-600 dark:text-gray-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="flex items-center space-x-2 text-red-600 mb-2">
+                <i class="fas fa-paper-plane text-xl"></i>
+                <h3 class="font-heading font-extrabold text-xl text-slate-900 dark:text-white">Kirim Berita Warga</h3>
+            </div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Punya informasi, peristiwa, atau berita menarik di sekitar Sulawesi Utara? Kirimkan tulisan atau foto Anda untuk diterbitkan di We Kawanua!</p>
+
+            <form id="citizen-news-form" onsubmit="handleNewsSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Lengkap / Kontributor</label>
+                    <input type="text" required placeholder="Contoh: Utu / Keke Mandagi" class="w-full p-2.5 rounded-lg bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-slate-900 dark:text-white focus:outline-none focus:border-red-500">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Nomor WhatsApp / HP</label>
+                        <input type="tel" required placeholder="0812xxxxxxx" class="w-full p-2.5 rounded-lg bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-slate-900 dark:text-white focus:outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Lokasi Peristiwa (Kab/Kota)</label>
+                        <select class="w-full p-2.5 rounded-lg bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-slate-900 dark:text-white focus:outline-none focus:border-red-500">
+                            <option>Kota Manado</option>
+                            <option>Kota Bitung</option>
+                            <option>Kota Tomohon</option>
+                            <option>Kota Kotamobagu</option>
+                            <option>Kab. Minahasa</option>
+                            <option>Kab. Minahasa Utara</option>
+                            <option>Kab. Minahasa Selatan</option>
+                            <option>Kab. Minahasa Tenggara</option>
+                            <option>Kab. Kepulauan Sangihe</option>
+                            <option>Kab. Kepulauan Talaud</option>
+                            <option>Kab. Kepulauan Sitaro</option>
+                            <option>Kab. Bolmong</option>
+                            <option>Kab. Bolmong Utara</option>
+                            <option>Kab. Bolmong Selatan</option>
+                            <option>Kab. Bolmong Timur</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Judul Berita / Kejadian</label>
+                    <input type="text" required placeholder="Tuliskan judul laporan Anda..." class="w-full p-2.5 rounded-lg bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-slate-900 dark:text-white focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Isi Berita / Kronologi</label>
+                    <textarea rows="4" required placeholder="Jelaskan detail peristiwa (Apa, Siapa, Kapan, Dimana, Mengapa, Bagaimana)..." class="w-full p-2.5 rounded-lg bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 text-slate-900 dark:text-white focus:outline-none focus:border-red-500"></textarea>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Lampirkan Foto / Bukti Kejadian</label>
+                    <input type="file" accept="image/*" class="w-full p-2 border border-dashed border-gray-300 dark:border-slate-600 rounded-lg bg-gray-50 dark:bg-slate-700 text-slate-600 dark:text-gray-300">
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow">
+                        <i class="fas fa-paper-plane mr-1"></i> Kirimkan Laporan Berita
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- News Article Detail Modal -->
+    <div id="news-modal" class="fixed inset-0 bg-black/75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative custom-scrollbar">
+            <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-100 dark:bg-slate-700 hover:bg-red-600 hover:text-white text-slate-600 dark:text-gray-300 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            <span id="modal-category" class="bg-red-100 text-red-600 text-xs font-bold px-2.5 py-1 rounded">Kategori</span>
+            <h2 id="modal-title" class="font-heading font-extrabold text-xl sm:text-2xl text-slate-900 dark:text-white mt-3 mb-2">Judul Berita Full</h2>
+            <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 space-x-3 mb-4">
+                <span id="modal-author"><i class="far fa-user mr-1"></i> Penulis</span>
+            </div>
+            <img id="modal-image" src="" alt="Detail Berita" class="w-full h-64 sm:h-80 object-cover rounded-xl mb-4">
+            <div id="modal-content" class="text-sm text-slate-700 dark:text-slate-300 space-y-3 leading-relaxed">
+            </div>
+            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-slate-700 flex justify-between items-center">
+                <span class="text-xs text-gray-400">Bagikan Berita:</span>
+                <div class="flex space-x-2">
+                    <button onclick="alert('Link berhasil disalin!')" class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-blue-700"><i class="fab fa-facebook-f mr-1"></i> FB</button>
+                    <button onclick="alert('Link berhasil disalin!')" class="bg-green-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-green-700"><i class="fab fa-whatsapp mr-1"></i> WA</button>
+                    <button onclick="alert('Link berhasil disalin!')" class="bg-gray-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs px-3 py-1.5 rounded-lg"><i class="fas fa-link mr-1"></i> Salin Link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with Social Media Links -->
+    <footer class="bg-slate-950 text-gray-400 border-t border-slate-800 mt-16 text-sm">
+        <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2">
+                    <span class="font-heading text-2xl font-black text-white">WE <span class="text-red-500">KAWANUA</span></span>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    Portal berita independen dan terpercaya menyajikan informasi terkini seputar Sulawesi Utara, Kota Manado, Bitung, Tomohon, Kotamobagu, Minahasa, Nusa Utara, dan Bolmong Raya.
+                </p>
+                <!-- Expanded Social Media Integration Footer -->
+                <div class="flex space-x-3 text-base text-gray-300">
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-red-600 transition-colors" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-red-600 transition-colors" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-red-600 transition-colors" title="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-red-600 transition-colors" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-red-600 transition-colors" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-heading font-bold text-white mb-4 text-sm uppercase tracking-wider border-l-2 border-red-600 pl-2">Kota & Wilayah Utama</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" onclick="filterCategory('manado')" class="hover:text-white transition-colors">Kota Manado</a></li>
+                    <li><a href="#" onclick="filterCategory('bitung')" class="hover:text-white transition-colors">Kota Bitung</a></li>
+                    <li><a href="#" onclick="filterCategory('tomohon')" class="hover:text-white transition-colors">Kota Tomohon</a></li>
+                    <li><a href="#" onclick="filterCategory('kotamobagu')" class="hover:text-white transition-colors">Kota Kotamobagu</a></li>
+                    <li><a href="#" onclick="filterCategory('minahasa')" class="hover:text-white transition-colors">Kabupaten Minahasa Raya</a></li>
+                    <li><a href="#" onclick="filterCategory('sangihe')" class="hover:text-white transition-colors">Kepulauan Nusa Utara</a></li>
+                    <li><a href="#" onclick="filterCategory('bolmong')" class="hover:text-white transition-colors">Bolaang Mongondow Raya</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-heading font-bold text-white mb-4 text-sm uppercase tracking-wider border-l-2 border-red-600 pl-2">Layanan Warga</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" onclick="openSubmitNewsModal()" class="hover:text-white transition-colors"><i class="fas fa-paper-plane mr-1 text-red-500"></i> Kirim Berita Warga</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Kawanua Post Digital</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Info Cuaca & Gelombang Laut</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Iklan & Kerja Sama Redaksi</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-heading font-bold text-white mb-4 text-sm uppercase tracking-wider border-l-2 border-red-600 pl-2">Redaksi We Kawanua</h4>
+                <p class="text-xs text-gray-400 space-y-2">
+                    <span class="block"><i class="fas fa-map-marker-alt text-red-500 mr-2"></i>Jl. Boulevard No. 88, Marina, Kota Manado, Sulawesi Utara</span>
+                    <span class="block"><i class="fas fa-envelope text-red-500 mr-2"></i>redaksi@wekawanua.com</span>
+                    <span class="block"><i class="fas fa-phone text-red-500 mr-2"></i>+62 431 888 999</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="border-t border-slate-900 bg-slate-950/80 py-4 px-4 text-center text-xs text-gray-500">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+                <p>&copy; We Kawanua. Hak Cipta Dilindungi Undang-Undang.</p>
+                <div class="flex space-x-4 text-gray-400">
+                    <a href="#" class="hover:text-white">Pedoman Siber</a>
+                    <a href="#" class="hover:text-white">Kebijakan Privasi</a>
+                    <a href="#" class="hover:text-white">Tentang Kami</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Interactivity -->
+    <script>
+        // Data Berita Berdasarkan Kota & Kabupaten di Sulut
+        const newsData = [
+            {
+                id: 0,
+                title: "Kawasan Wisata Bunaken Manado Resmi Masuk Daftar Warisan Dunia UNESCO",
+                category: "manado",
+                categoryLabel: "Kota Manado",
+                author: "Stenly Pontoh",
+                image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
+                summary: "Pengakuan dunia internasional kembali diraih Sulawesi Utara. Kawasan konservasi laut Bunaken diakui atas keanekaragaman hayati terumbu karang.",
+                content: `<p>MANADO — Kawasan Taman Nasional Laut Bunaken secara resmi ditetapkan sebagai Warisan Dunia UNESCO. Penetapan ini disambut meriah oleh seluruh masyarakat Sulawesi Utara.</p>`
+            },
+            {
+                id: 1,
+                title: "Menikmati Bebek Bumbu RW dan Tinutuan Asli Kawangkoan Minahasa",
+                category: "minahasa",
+                categoryLabel: "Kab. Minahasa",
+                author: "Meisya Runtuwene",
+                image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
+                summary: "Kuliner khas Minahasa tak pernah gagal memanjakan lidah para pecinta masakan pedas dan kaya bumbu rempah aromatik.",
+                content: `<p>Kuliner Minahasa identik dengan kekayaan bumbu rempah seperti serai, daun jeruk, pandan, serta cabai rawit. Bebek bumbu RW menjadi salah satu hidangan favorit yang selalu diburu turis.</p>`
+            },
+            {
+                id: 2,
+                title: "Pembangunan Tol Manado-Bitung Lanjut ke Kawasan Ekonomi Likupang",
+                category: "minut",
+                categoryLabel: "Minahasa Utara",
+                author: "Vicky Lumentut",
+                image: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80",
+                summary: "Pemerintah provinsi mempercepat konektivitas infrastruktur darat menuju Kawasan Ekonomi Khusus (KEK) Likupang.",
+                content: `<p>Pembangunan infrastruktur di Minahasa Utara terus ditunjang dengan perpanjangan akses tol darat menuju destinasi super prioritas Likupang.</p>`
+            },
+            {
+                id: 3,
+                title: "Pasar Beriman Tomohon Ditata Jadi Destinasi Wisata Etnografi Modern",
+                category: "tomohon",
+                categoryLabel: "Kota Tomohon",
+                author: "Jefry Mandagi",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
+                summary: "Pasar tradisional Tomohon kini ditata lebih bersih dan higienis tanpa menghilangkan nilai kebudayaan lokal.",
+                content: `<p>TOMOHON — Penataan Pasar Beriman Tomohon tahap dua telah selesai untuk memberikan kenyamanan belanja bagi warga dan wisatawan.</p>`
+            },
+            {
+                id: 4,
+                title: "Pengembangan Pelabuhan Samudra Bitung Sebagai Pusat Logistik Pasifik",
+                category: "bitung",
+                categoryLabel: "Kota Bitung",
+                author: "Novianti Wowor",
+                image: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800&q=80",
+                summary: "Kota Bitung memperkuat posisinya sebagai pelabuhan hub internasional ekspor hasil laut Sulawesi Utara.",
+                content: `<p>BITUNG — Pelabuhan Samudra Bitung menambah fasilitas komoditas perikanan dan peti kemas guna mendukung ekspor langsung ke negara tetangga.</p>`
+            },
+            {
+                id: 5,
+                title: "Panen Raya Kopi Organik di Kotamobagu Dorong UMKM Lokal",
+                category: "kotamobagu",
+                categoryLabel: "Kota Kotamobagu",
+                author: "Aldo Supit",
+                image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=800&q=80",
+                summary: "Kopi khas Kotamobagu kian diminati pasar nasional hingga merambah pasar ekspor mancanegara.",
+                content: `<p>KOTAMOBAGU — Petani kopi di wilayah Bolaang Mongondow merayakan hasil panen melimpah dengan kualitas biji kopi unggulan.</p>`
+            },
+            {
+                id: 6,
+                title: "Pelayaran Kapal Cepat Tahuna-Siau Ditambah Hadapi Musim Liburan",
+                category: "sangihe",
+                categoryLabel: "Kep. Sangihe",
+                author: "Rina Sompie",
+                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+                summary: "Konektivitas antarpulau di Kepulauan Sangihe dan Sitaro dijamin aman dan lancar.",
+                content: `<p>TAHUNA — Pemerintah daerah menambah armada kapal penyeberangan guna memastikan kelancaran transportasi warga kepulauan.</p>`
+            }
+        ];
+
+        // Render News Cards
+        function renderNews(data) {
+            const container = document.getElementById('news-container');
+            container.innerHTML = '';
+            
+            data.forEach((item) => {
+                const card = document.createElement('article');
+                card.className = "bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 dark:border-slate-700/80 transition-all flex flex-col justify-between group cursor-pointer";
+                card.onclick = () => openModal(item.id);
+
+                card.innerHTML = `
+                    <div>
+                        <div class="relative overflow-hidden h-48">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider shadow">
+                                ${item.categoryLabel}
+                            </span>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center text-[11px] text-gray-400 mb-2">
+                                <span><i class="far fa-user mr-1"></i> ${item.author}</span>
+                            </div>
+                            <h4 class="font-heading font-bold text-base text-slate-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors line-clamp-2 leading-snug">
+                                ${item.title}
+                            </h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-300 mt-2 line-clamp-3">
+                                ${item.summary}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-4 pt-2 border-t border-gray-50 dark:border-slate-700/50 flex justify-between items-center text-xs text-red-600 dark:text-red-400 font-semibold">
+                        <span>Baca Selengkapnya</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Category & City Filter Function
+        function filterCategory(cat) {
+            const categoryTitle = document.getElementById('current-category-title');
+
+            if (cat === 'semua') {
+                renderNews(newsData);
+                categoryTitle.innerHTML = `<i class="fas fa-newspaper text-red-600 mr-2"></i> Berita Terkini Sulawesi Utara`;
+            } else {
+                const filtered = newsData.filter(item => item.category === cat);
+                renderNews(filtered.length > 0 ? filtered : newsData);
+                categoryTitle.innerHTML = `<i class="fas fa-map-marker-alt text-red-600 mr-2"></i> Berita Wilayah: ${cat.toUpperCase()}`;
+            }
+        }
+
+        // News Detail Modal Functions
+        function openModal(id) {
+            const item = newsData.find(n => n.id === id) || newsData[0];
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-category').innerText = item.categoryLabel;
+            document.getElementById('modal-author').innerHTML = `<i class="far fa-user mr-1"></i> ${item.author}`;
+            document.getElementById('modal-image').src = item.image;
+            document.getElementById('modal-content').innerHTML = item.content;
+            
+            document.getElementById('news-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('news-modal').classList.add('hidden');
+        }
+
+        // Kirim Berita Citizen Journalism Modal Functions
+        function openSubmitNewsModal() {
+            document.getElementById('submit-news-modal').classList.remove('hidden');
+        }
+
+        function closeSubmitNewsModal() {
+            document.getElementById('submit-news-modal').classList.add('hidden');
+        }
+
+        function handleNewsSubmit(e) {
+            e.preventDefault();
+            alert('Terima kasih! Berita/laporan Anda telah berhasil terkirim ke Redaksi We Kawanua untuk diverifikasi.');
+            document.getElementById('citizen-news-form').reset();
+            closeSubmitNewsModal();
+        }
+
+        // Poll Submission
+        function submitPoll() {
+            const selected = document.querySelector('input[name="poll"]:checked');
+            if(!selected) {
+                alert('Silakan pilih salah satu opsi polling!');
+                return;
+            }
+            document.getElementById('poll-form').classList.add('hidden');
+            document.getElementById('poll-result').classList.remove('hidden');
+        }
+
+        // Dark/Light Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                themeIcon.className = 'fas fa-moon text-xs';
+            } else {
+                document.documentElement.classList.add('dark');
+                themeIcon.className = 'fas fa-sun text-xs text-yellow-400';
+            }
+        });
+
+        // Mobile Nav Drawer Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMobileBtn = document.getElementById('close-mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
+        closeMobileBtn.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+
+        function closeMobileNav() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Initialize On Load
+        window.onload = function () {
+            renderNews(newsData);
+        };
+    </script>
+</body>
+</html>
